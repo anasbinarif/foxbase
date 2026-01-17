@@ -1,0 +1,17 @@
+### Health
+GET http://localhost:3000/api/v1/health
+
+### Get seeded questionnaire
+GET http://localhost:3000/api/v1/questionnaires/00000000-0000-0000-0000-000000000001
+
+### Evaluate (Roof + Foam + <= 100€)
+POST http://localhost:3000/api/v1/questionnaires/00000000-0000-0000-0000-000000000001/evaluate
+Content-Type: application/json
+
+{
+  "answers": [
+    { "questionId": "00000000-0000-0000-0000-000000000101", "answerOptionId": "00000000-0000-0000-0000-000000000201" },
+    { "questionId": "00000000-0000-0000-0000-000000000102", "answerOptionId": "00000000-0000-0000-0000-000000000203" },
+    { "questionId": "00000000-0000-0000-0000-000000000103", "answerOptionId": "00000000-0000-0000-0000-000000000205" }
+  ]
+}
