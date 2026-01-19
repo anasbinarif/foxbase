@@ -2,8 +2,8 @@ services:
   db:
     image: postgres:16-alpine
     environment:
-      POSTGRES_USER: foxbase
-      POSTGRES_PASSWORD: foxbase
+      POSTGRES_USER: macbookpro
+      POSTGRES_PASSWORD: StrongPassword123
       POSTGRES_DB: foxbase_filtering
     ports:
       - "5432:5432"

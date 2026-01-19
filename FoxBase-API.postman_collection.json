@@ -1,0 +1,188 @@
+{
+  "info": {
+    "name": "FoxBase Filtering API",
+    "description": "API collection for testing FoxBase reductive and additive filtering system",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Health Check",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/health",
+          "host": ["{{baseUrl}}"],
+          "path": ["health"]
+        },
+        "description": "Check if the API is running"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Questionnaire",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/questionnaires/{{questionnaireId}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["questionnaires", "{{questionnaireId}}"]
+        },
+        "description": "Retrieve the questionnaire structure with all questions and answer options"
+      },
+      "response": []
+    },
+    {
+      "name": "Evaluate - Roof + Foam + Up to €100 (With Recommendations)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"answers\": [\n    {\n      \"questionId\": \"00000000-0000-0000-0000-000000000101\",\n      \"answerOptionId\": \"00000000-0000-0000-0000-000000000201\"\n    },\n    {\n      \"questionId\": \"00000000-0000-0000-0000-000000000102\",\n      \"answerOptionId\": \"00000000-0000-0000-0000-000000000203\"\n    },\n    {\n      \"questionId\": \"00000000-0000-0000-0000-000000000103\",\n      \"answerOptionId\": \"00000000-0000-0000-0000-000000000205\"\n    }\n  ]\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/questionnaires/{{questionnaireId}}/evaluate",
+          "host": ["{{baseUrl}}"],
+          "path": ["questionnaires", "{{questionnaireId}}", "evaluate"]
+        },
+        "description": "Evaluates answers for:\n- Application: Roof\n- Material: Foam\n- Budget: Up to €100\n\nThis triggers:\n- Reductive filters: roof + foam + price <= €100\n- Additive recommendations: Roof Foam Plus (€150) and Roof Wool Pro (€220)\n\nExpected result: Union of reductive and additive products with 'source' field"
+      },
+      "response": []
+    },
+    {
+      "name": "Evaluate - Wall + Wool + Up to €100 (With Recommendations)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"answers\": [\n    {\n      \"questionId\": \"00000000-0000-0000-0000-000000000101\",\n      \"answerOptionId\": \"00000000-0000-0000-0000-000000000202\"\n    },\n    {\n      \"questionId\": \"00000000-0000-0000-0000-000000000102\",\n      \"answerOptionId\": \"00000000-0000-0000-0000-000000000204\"\n    },\n    {\n      \"questionId\": \"00000000-0000-0000-0000-000000000103\",\n      \"answerOptionId\": \"00000000-0000-0000-0000-000000000205\"\n    }\n  ]\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/questionnaires/{{questionnaireId}}/evaluate",
+          "host": ["{{baseUrl}}"],
+          "path": ["questionnaires", "{{questionnaireId}}", "evaluate"]
+        },
+        "description": "Evaluates answers for:\n- Application: Wall\n- Material: Wool\n- Budget: Up to €100\n\nThis triggers:\n- Reductive filters: wall + wool + price <= €100\n- Additive recommendations: Roof Foam Plus (€150) and Roof Wool Pro (€220)\n\nNote: The additive products are roof-specific but will still be included (union approach)"
+      },
+      "response": []
+    },
+    {
+      "name": "Evaluate - Roof + Foam + Up to €200",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"answers\": [\n    {\n      \"questionId\": \"00000000-0000-0000-0000-000000000101\",\n      \"answerOptionId\": \"00000000-0000-0000-0000-000000000201\"\n    },\n    {\n      \"questionId\": \"00000000-0000-0000-0000-000000000102\",\n      \"answerOptionId\": \"00000000-0000-0000-0000-000000000203\"\n    },\n    {\n      \"questionId\": \"00000000-0000-0000-0000-000000000103\",\n      \"answerOptionId\": \"00000000-0000-0000-0000-000000000206\"\n    }\n  ]\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/questionnaires/{{questionnaireId}}/evaluate",
+          "host": ["{{baseUrl}}"],
+          "path": ["questionnaires", "{{questionnaireId}}", "evaluate"]
+        },
+        "description": "Evaluates answers for:\n- Application: Roof\n- Material: Foam\n- Budget: Up to €200\n\nThis triggers only reductive filters (no additive recommendations).\nExpected: Only reductive products with source='reductive'"
+      },
+      "response": []
+    },
+    {
+      "name": "Evaluate - Roof + Wool + No Limit",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"answers\": [\n    {\n      \"questionId\": \"00000000-0000-0000-0000-000000000101\",\n      \"answerOptionId\": \"00000000-0000-0000-0000-000000000201\"\n    },\n    {\n      \"questionId\": \"00000000-0000-0000-0000-000000000102\",\n      \"answerOptionId\": \"00000000-0000-0000-0000-000000000204\"\n    },\n    {\n      \"questionId\": \"00000000-0000-0000-0000-000000000103\",\n      \"answerOptionId\": \"00000000-0000-0000-0000-000000000207\"\n    }\n  ]\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/questionnaires/{{questionnaireId}}/evaluate",
+          "host": ["{{baseUrl}}"],
+          "path": ["questionnaires", "{{questionnaireId}}", "evaluate"]
+        },
+        "description": "Evaluates answers for:\n- Application: Roof\n- Material: Wool\n- Budget: No limit\n\nThis triggers only reductive filters (no price filter, no recommendations).\nExpected: All roof wool products with source='reductive'"
+      },
+      "response": []
+    },
+    {
+      "name": "Evaluate - Invalid (Missing Answer)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"answers\": [\n    {\n      \"questionId\": \"00000000-0000-0000-0000-000000000101\",\n      \"answerOptionId\": \"00000000-0000-0000-0000-000000000201\"\n    }\n  ]\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/questionnaires/{{questionnaireId}}/evaluate",
+          "host": ["{{baseUrl}}"],
+          "path": ["questionnaires", "{{questionnaireId}}", "evaluate"]
+        },
+        "description": "Test validation: only one answer provided (should require all questions to be answered or handle partial answers)"
+      },
+      "response": []
+    },
+    {
+      "name": "Evaluate - Invalid Questionnaire ID",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"answers\": [\n    {\n      \"questionId\": \"00000000-0000-0000-0000-000000000101\",\n      \"answerOptionId\": \"00000000-0000-0000-0000-000000000201\"\n    },\n    {\n      \"questionId\": \"00000000-0000-0000-0000-000000000102\",\n      \"answerOptionId\": \"00000000-0000-0000-0000-000000000203\"\n    },\n    {\n      \"questionId\": \"00000000-0000-0000-0000-000000000103\",\n      \"answerOptionId\": \"00000000-0000-0000-0000-000000000205\"\n    }\n  ]\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/questionnaires/99999999-9999-9999-9999-999999999999/evaluate",
+          "host": ["{{baseUrl}}"],
+          "path": ["questionnaires", "99999999-9999-9999-9999-999999999999", "evaluate"]
+        },
+        "description": "Test error handling: questionnaire not found"
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000/api/v1",
+      "type": "string"
+    },
+    {
+      "key": "questionnaireId",
+      "value": "00000000-0000-0000-0000-000000000001",
+      "type": "string"
+    }
+  ]
+}
+

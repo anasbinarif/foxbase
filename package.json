@@ -16,7 +16,9 @@
     "db:setup": "npm run db:migrate && npm run db:seed",
     "lint": "eslint .",
     "format": "prettier -w .",
-    "test": "npm run test:build && node --test dist-test",
+    "test": "npm run test:build && node --test dist-test/**/*.test.js",
+    "test:unit": "npm run test:build && node --test dist-test/domain/**/*.test.js dist-test/application/usecases/__tests__/mergeProducts.test.js",
+    "test:integration": "npm run test:build && node --test dist-test/application/usecases/__tests__/EvaluateQuestionnaire.integration.test.js",
     "test:build": "tsc -p tsconfig.test.json"
   },
   "dependencies": {

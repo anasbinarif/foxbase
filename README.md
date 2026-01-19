@@ -14,11 +14,11 @@ It now supports:
 1. A customer configures a questionnaire (questions + answer options).
 2. Each answer option can have one or more **effects** configured in Postgres.
 3. Supported effect types:
-   - `filter`: contributes a SQL `WHERE` condition that reduces the product set.
-   - `recommendation`: adds specific products by ID as additive recommendations.
+    - `filter`: contributes a SQL `WHERE` condition that reduces the product set.
+    - `recommendation`: adds specific products by ID as additive recommendations.
 4. The backend evaluates the current set of answers and returns:
-   - the remaining products (reductive ∪ additive, deduped)
-   - the active reductive filters.
+    - the remaining products (reductive ∪ additive, deduped)
+    - the active reductive filters.
 
 ---
 
@@ -114,15 +114,15 @@ curl -X POST http://localhost:3000/api/v1/questionnaires/00000000-0000-0000-0000
 
 Response shape:
 - `products`: array of products with a `source` field:
-  - `source: 'reductive' | 'additive' | 'both'`
+    - `source: 'reductive' | 'additive' | 'both'`
 - `activeFilters`: the filter rules that were triggered by the selected answer options.
 
 Behavior:
 - Final result is the **union** of reductive and additive products (even if additive products wouldn’t match the filters).
 - Products are **deduplicated by ID**.
 - Order is deterministic:
-  - All products in the reductive result first (in their filtered order).
-  - Then products that only come from additive recommendations, sorted by `name ASC, id ASC`.
+    - All products in the reductive result first (in their filtered order).
+    - Then products that only come from additive recommendations, sorted by `name ASC, id ASC`.
 
 ---
 

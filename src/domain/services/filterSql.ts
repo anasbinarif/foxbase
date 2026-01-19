@@ -1,4 +1,4 @@
-import { FilterEffectPayload } from '../entities/AnswerEffect';
+import type { FilterEffectPayload } from '../entities/AnswerEffect';
 
 export type SqlWhere = {
   clause: string; // without the leading WHERE
