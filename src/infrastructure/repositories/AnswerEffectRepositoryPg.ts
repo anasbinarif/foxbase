@@ -21,9 +21,15 @@ const FilterPayloadSchema: z.ZodType<FilterEffectPayload> = z.object({
   value: z.union([z.string(), z.number(), z.array(z.union([z.string(), z.number()]))]),
 });
 
-const RecommendationPayloadSchema: z.ZodType<RecommendationEffectPayload> = z.object({
-  productIds: z.array(z.string().uuid()).min(1),
-});
+const RecommendationPayloadSchema: z.ZodType<RecommendationEffectPayload> = z
+  .object({
+    productIds: z.array(z.string().uuid()).optional(),
+    filters: z.array(FilterPayloadSchema).optional(),
+  })
+  .refine(
+    (data) => data.productIds !== undefined || data.filters !== undefined,
+    { message: 'At least one of productIds or filters must be provided' },
+  );
 
 export class AnswerEffectRepositoryPg implements AnswerEffectRepository {
   async findFilterEffectsByAnswerOptionIds(answerOptionIds: string[]): Promise<FilterAnswerEffect[]> {
