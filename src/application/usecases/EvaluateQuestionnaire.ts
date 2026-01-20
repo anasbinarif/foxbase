@@ -79,16 +79,33 @@ export class EvaluateQuestionnaire {
     // Reductive result.
     const reductiveProducts = await this.productRepo.findByFilters(filters);
 
-    // Collect additive product IDs from recommendation effects.
+    // Collect additive products from recommendation effects.
+    // Recommendations can specify products in two ways:
+    // 1. Explicit product IDs (productIds array)
+    // 2. Attribute-based filters (filters array)
     const additiveProductIdSet = new Set<string>();
+    const additiveFiltersList: FilterEffectPayload[] = [];
+
     for (const eff of recommendationEffects) {
-      for (const id of eff.payload.productIds) {
-        additiveProductIdSet.add(id);
+      // Collect explicit product IDs
+      if (eff.payload.productIds) {
+        for (const id of eff.payload.productIds) {
+          additiveProductIdSet.add(id);
+        }
+      }
+      // Collect attribute-based filters
+      if (eff.payload.filters) {
+        additiveFiltersList.push(...eff.payload.filters);
       }
     }
-    const additiveProductIds = Array.from(additiveProductIdSet);
 
-    const additiveProducts = await this.productRepo.findByIds(additiveProductIds);
+    // Fetch additive products from both sources
+    const additiveProductIds = Array.from(additiveProductIdSet);
+    const additiveProductsById = await this.productRepo.findByIds(additiveProductIds);
+    const additiveProductsByFilters = await this.productRepo.findByFilters(additiveFiltersList);
+
+    // Combine all additive products
+    const additiveProducts = [...additiveProductsById, ...additiveProductsByFilters];
 
     // Merge results using union approach with deterministic ordering and source flag.
     type ProductWithSource = {

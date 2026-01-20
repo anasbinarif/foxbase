@@ -22,6 +22,12 @@ const QUESTIONS = [
     position: 3,
     text: 'What is your max budget?',
   },
+  {
+    id: '00000000-0000-0000-0000-000000000104',
+    questionnaireId: QUESTIONNAIRE_ID,
+    position: 4,
+    text: 'Any special requirements?',
+  },
 ] as const;
 
 const ANSWER_OPTIONS = [
@@ -35,6 +41,9 @@ const ANSWER_OPTIONS = [
   { id: '00000000-0000-0000-0000-000000000205', questionId: QUESTIONS[2].id, label: 'Up to €100' },
   { id: '00000000-0000-0000-0000-000000000206', questionId: QUESTIONS[2].id, label: 'Up to €200' },
   { id: '00000000-0000-0000-0000-000000000207', questionId: QUESTIONS[2].id, label: 'No limit' },
+  // Q4
+  { id: '00000000-0000-0000-0000-000000000208', questionId: QUESTIONS[3].id, label: 'Premium fire rating' },
+  { id: '00000000-0000-0000-0000-000000000209', questionId: QUESTIONS[3].id, label: 'No special requirements' },
 ] as const;
 
 const ANSWER_EFFECTS = [
@@ -78,6 +87,7 @@ const ANSWER_EFFECTS = [
     payload: { field: 'priceCents', op: 'lte', value: 20000 },
   },
   // Note: "No limit" has no filter effect by design.
+  // Recommendation using explicit product IDs (existing approach)
   {
     id: '00000000-0000-0000-0000-000000000307',
     answerOptionId: '00000000-0000-0000-0000-000000000205',
@@ -86,6 +96,31 @@ const ANSWER_EFFECTS = [
       productIds: [
         '00000000-0000-0000-0000-000000001002',
         '00000000-0000-0000-0000-000000001004',
+      ],
+    },
+  },
+  // Q4 effects - Recommendation using attribute-based filters (new approach)
+  {
+    id: '00000000-0000-0000-0000-000000000308',
+    answerOptionId: '00000000-0000-0000-0000-000000000208', // Premium fire rating
+    type: 'recommendation',
+    payload: {
+      filters: [
+        { field: 'attributes.fireRating', op: 'eq', value: 'A' },
+      ],
+    },
+  },
+  // Combined approach - using BOTH explicit IDs and attribute-based filters
+  {
+    id: '00000000-0000-0000-0000-000000000309',
+    answerOptionId: '00000000-0000-0000-0000-000000000207', // No limit
+    type: 'recommendation',
+    payload: {
+      productIds: [
+        '00000000-0000-0000-0000-000000001003', // Roof Wool Eco (explicit)
+      ],
+      filters: [
+        { field: 'attributes.thicknessMm', op: 'gte', value: 50 }, // Also add thick products
       ],
     },
   },

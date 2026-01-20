@@ -28,7 +28,8 @@ export interface FilterAnswerEffect extends AnswerEffect {
 }
 
 export interface RecommendationEffectPayload {
-  productIds: string[];
+  productIds?: string[];
+  filters?: FilterEffectPayload[];
 }
 
 export interface RecommendationAnswerEffect extends AnswerEffect {
