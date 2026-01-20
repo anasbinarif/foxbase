@@ -138,6 +138,23 @@ A natural extension is to add a new effect type, for example:
 
 ---
 
+## Testing with Postman
+
+A Postman collection is included in the repository (`FoxBase-API.postman_collection.json`) with pre-configured test cases for all API endpoints.
+
+**To use:**
+1. Import the collection into Postman (File → Import → select `FoxBase-API.postman_collection.json`)
+2. The collection includes variables for `baseUrl` and `questionnaireId` (no manual configuration needed)
+3. Test cases cover:
+   - Explicit ID recommendations
+   - Attribute-based recommendations
+   - Combined approach (both explicit IDs + attribute filters)
+   - Validation and error scenarios
+
+Simply run the requests to test reductive filtering, additive recommendations, and their union behavior.
+
+---
+
 ## Tests
 
 ```bash
