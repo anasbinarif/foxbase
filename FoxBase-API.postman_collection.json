@@ -126,6 +126,52 @@
       "response": []
     },
     {
+      "name": "Evaluate - Roof + Foam + Premium Fire Rating (Attribute-based)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"answers\": [\n    {\n      \"questionId\": \"00000000-0000-0000-0000-000000000101\",\n      \"answerOptionId\": \"00000000-0000-0000-0000-000000000201\"\n    },\n    {\n      \"questionId\": \"00000000-0000-0000-0000-000000000102\",\n      \"answerOptionId\": \"00000000-0000-0000-0000-000000000203\"\n    },\n    {\n      \"questionId\": \"00000000-0000-0000-0000-000000000103\",\n      \"answerOptionId\": \"00000000-0000-0000-0000-000000000206\"\n    },\n    {\n      \"questionId\": \"00000000-0000-0000-0000-000000000104\",\n      \"answerOptionId\": \"00000000-0000-0000-0000-000000000208\"\n    }\n  ]\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/questionnaires/{{questionnaireId}}/evaluate",
+          "host": ["{{baseUrl}}"],
+          "path": ["questionnaires", "{{questionnaireId}}", "evaluate"]
+        },
+        "description": "Evaluates answers for:\n- Application: Roof\n- Material: Foam\n- Budget: Up to €200\n- Special requirement: Premium fire rating\n\nThis triggers:\n- Reductive filters: roof + foam + price <= €200\n- Additive recommendations (attribute-based): All products with fireRating='A'\n\nDemonstrates attribute-based filtering approach where products are dynamically selected based on attributes."
+      },
+      "response": []
+    },
+    {
+      "name": "Evaluate - Roof + Foam + No Limit (Combined Approach)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"answers\": [\n    {\n      \"questionId\": \"00000000-0000-0000-0000-000000000101\",\n      \"answerOptionId\": \"00000000-0000-0000-0000-000000000201\"\n    },\n    {\n      \"questionId\": \"00000000-0000-0000-0000-000000000102\",\n      \"answerOptionId\": \"00000000-0000-0000-0000-000000000203\"\n    },\n    {\n      \"questionId\": \"00000000-0000-0000-0000-000000000103\",\n      \"answerOptionId\": \"00000000-0000-0000-0000-000000000207\"\n    }\n  ]\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/questionnaires/{{questionnaireId}}/evaluate",
+          "host": ["{{baseUrl}}"],
+          "path": ["questionnaires", "{{questionnaireId}}", "evaluate"]
+        },
+        "description": "Evaluates answers for:\n- Application: Roof\n- Material: Foam\n- Budget: No limit\n\nThis triggers:\n- Reductive filters: roof + foam (no price filter)\n- Additive recommendations (COMBINED approach):\n  * Explicit ID: Roof Wool Eco\n  * Attribute filter: All products with thicknessMm >= 50\n\nDemonstrates the hybrid approach combining both explicit product IDs and attribute-based filters in a single recommendation."
+      },
+      "response": []
+    },
+    {
       "name": "Evaluate - Invalid (Missing Answer)",
       "request": {
         "method": "POST",
@@ -185,4 +231,3 @@
     }
   ]
 }
-
